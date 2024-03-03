@@ -1,4 +1,4 @@
-DROP TABLE listsItem;
+DROP TABLE listsItem; 
 DROP TABLE shoplist;
 DROP TABLE productlist;
 DROP TABLE shops;

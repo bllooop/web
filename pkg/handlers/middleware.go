@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"strings"
 
@@ -28,4 +29,18 @@ func (h *Handler) shopIdentity(c *gin.Context) {
 		newError(c, http.StatusUnauthorized, err.Error())
 	}
 	c.Set(shopCtx, shopId)
+}
+
+func getShopId(c *gin.Context) (int, error) {
+	id, ok := c.Get(shopCtx)
+	if !ok {
+		newError(c, http.StatusInternalServerError, "shop id not found")
+		return 0, errors.New("shop id not found")
+	}
+	idInt, ok := id.(int)
+	if !ok {
+		newError(c, http.StatusInternalServerError, "shop id is of invalid type")
+		return 0, errors.New("shop id is of invalid type")
+	}
+	return idInt, nil
 }

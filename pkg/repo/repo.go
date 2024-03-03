@@ -12,6 +12,11 @@ type Authorization interface {
 }
 
 type ProductList interface {
+	Create(shopId int, list web.ProductList) (int, error)
+	GetAllLists(shopId int) ([]web.ProductList, error)
+	GetById(shopId, listId int) (web.ProductList, error)
+	Delete(shopId, listId int) error
+	Update(shopId, listId int, input web.UpdateProductListInput) error
 }
 
 type ProductItem interface {
@@ -25,5 +30,6 @@ type Repository struct {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		ProductList:   NewProductListPostgres(db),
 	}
 }
