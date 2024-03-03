@@ -8,7 +8,7 @@ import (
 type Authorization interface {
 	CreateShop(shop web.Shop) (int, error)
 	GenerateToken(shopname, password string) (string, error)
-	ParseToken(token error) (int, error)
+	ParseToken(token string) (int, error)
 }
 
 type ProductList interface {
