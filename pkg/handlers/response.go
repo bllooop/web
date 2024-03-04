@@ -8,7 +8,7 @@ import (
 type errorResponse struct {
 	Message string `json: message`
 }
-type statusReponse struct {
+type statusResponse struct {
 	Status string `json: status`
 }
 

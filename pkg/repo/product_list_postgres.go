@@ -82,7 +82,7 @@ func (r *ProductListPostgres) Update(shopId, listId int, input web.UpdateProduct
 		argId++
 	}
 	setQuery := strings.Join(setValues, ", ")
-	query := fmt.Sprintf("UPDATE %s pl SET %s FROM %s sl WHERE pl.id = sl.list_id AND sl.list_id=$%d AND sl.user_id=$%d",
+	query := fmt.Sprintf("UPDATE %s pl SET %s FROM %s sl WHERE pl.id = sl.list_id AND sl.list_id=$%d AND sl.shop_id=$%d",
 		productListTable, setQuery, shopListTable, argId, argId+1)
 	args = append(args, listId, shopId)
 	logrus.Debug("updateQuery: %s", query)

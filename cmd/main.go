@@ -1,8 +1,11 @@
 package main
 
 import (
+	"context"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
 	"web"
 	handler "web/pkg/handlers"
 	"web/pkg/repo"
@@ -38,8 +41,21 @@ func main() {
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 	srv := new(web.Server)
-	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
-		log.Fatalf("error occured during running server: %s", err.Error())
+	go func() {
+		if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+			log.Fatalf("error occured during running server: %s", err.Error())
+		}
+	}()
+	logrus.Print("App is running")
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGTERM, syscall.SIGINT)
+	<-quit
+	logrus.Print("App is shutting down")
+	if err := srv.Shutdown(context.Background()); err != nil {
+		log.Fatalf("error occured during server shutdown: %s", err.Error())
+	}
+	if err := db.Close(); err != nil {
+		log.Fatalf("error occured during closing db conn: %s", err.Error())
 	}
 }
 

@@ -20,6 +20,11 @@ type ProductList interface {
 }
 
 type ProductItem interface {
+	Create(shopId, listId int, product web.ProductItem) (int, error)
+	GetAll(shopId, listId int) ([]web.ProductItem, error)
+	GetById(shopId, itemId int) (web.ProductItem, error)
+	Delete(shopId, itemId int) error
+	Update(shopId, itemId int, input web.UpdateProductItemInput) error
 }
 type Service struct {
 	Authorization
@@ -31,5 +36,6 @@ func NewService(repos *repo.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		ProductList:   NewProductListService(repos.ProductList),
+		ProductItem:   NewProductItemService(repos.ProductItem, repos.ProductList),
 	}
 }
