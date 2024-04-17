@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// handlers
 type Handler struct {
 	services *service.Service
 }
@@ -13,8 +14,28 @@ type Handler struct {
 func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
+
+type Device struct {
+	ID       int    `json:"id"`
+	Mac      string `json:"mac"`
+	Firmware string `json:"firmware"`
+}
+
+/*
+var dvs []Device
+
+	func init() {
+		dvs = []Device{
+			{1, "5F-33-CC-1F-43-82", "2.1.6"},
+			{2, "EF-2B-C4-F5-D6-34", "2.1.6"},
+		}
+	}
+*/
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+	//reg := prometheus.NewRegistry()
+	//m := h.newMetrics(reg)
+	//m.devices.Set(float64(len(dvs)))
 	auth := router.Group("/auth")
 	{
 		auth.POST("sign-up", h.signUp)
@@ -37,9 +58,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		}
 		products := api.Group("products")
 		{
-			products.GET("/:d", h.getProductById)
+			products.GET("/:id", h.getProductById)
 			products.PUT("/:id", h.updateProduct)
 			products.DELETE("/:id", h.deleteProduct)
+		}
+		metrics := api.Group("metrics")
+		{
+			metrics.GET("/", prometheusHandler())
 		}
 	}
 	return router

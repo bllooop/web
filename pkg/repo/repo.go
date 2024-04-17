@@ -6,6 +6,7 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
+// interface with methods
 type Authorization interface {
 	CreateShop(shop web.Shop) (int, error)
 	GetShop(shopname, password string) (web.Shop, error)

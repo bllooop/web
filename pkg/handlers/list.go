@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+////calling service methods and returning results in json
+
 func (h *Handler) createProductList(c *gin.Context) {
 	shopid, err := getShopId(c)
 	if err != nil {
@@ -18,7 +20,6 @@ func (h *Handler) createProductList(c *gin.Context) {
 		newError(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	//calling service method
 	id, err := h.services.ProductList.Create(shopid, input)
 	if err != nil {
 		newError(c, http.StatusInternalServerError, err.Error())

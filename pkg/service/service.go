@@ -5,6 +5,7 @@ import (
 	"web/pkg/repo"
 )
 
+// interface with service methods
 type Authorization interface {
 	CreateShop(shop web.Shop) (int, error)
 	GenerateToken(shopname, password string) (string, error)
@@ -32,6 +33,7 @@ type Service struct {
 	ProductItem
 }
 
+// constructor
 func NewService(repos *repo.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),

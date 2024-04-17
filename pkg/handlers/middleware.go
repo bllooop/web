@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// methods for getting shop id and checking for headers of auth and parsing token
 const (
 	authorizationHeader = "Authorization"
 	shopCtx             = "shopId"

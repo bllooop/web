@@ -9,6 +9,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// realisation of repos methods
 type ProductListPostgres struct {
 	db *sqlx.DB
 }

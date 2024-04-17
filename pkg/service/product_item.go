@@ -5,6 +5,7 @@ import (
 	"web/pkg/repo"
 )
 
+// implement service interface methods and call repos methods
 type ProductItemService struct {
 	repo     repo.ProductItem
 	listRepo repo.ProductList
